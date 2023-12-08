@@ -1,0 +1,25 @@
+header {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: monospace;
+    font-size: 20px;
+}
+header div{
+    width: 32%;
+    margin-top: 0.7%;
+    font-style: italic;
+    font-size: x-large;
+}
+.author {
+    margin-left: 2%;
+    text-align: left;
+}
+.title {
+    text-align: center;
+}
+.variant {
+    text-align: right;
+}

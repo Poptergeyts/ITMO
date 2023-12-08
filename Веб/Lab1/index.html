@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторная работа №1</title>
+    <link rel="stylesheet" href="CSS/header.css">
+    <link rel="stylesheet" href="CSS/main.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="author">Шубин Илья P3233</div>
+        <div class="title">Лабораторная работа №1</div>
+        <div class="variant">Вариант 1400</div>
+    </header>
+
+    <main>
+        <div class="graph">
+            <canvas id="graph">This browser does not support graphics</canvas>
+        </div>
+
+        <form action="index.php" method="GET" id="feedBack" onsubmit="return false">
+        <div class="input_box">
+            <div>
+                <label>Enter X:
+                    <label>-2<input value="-2" class="input_element" type="checkbox" name="check" onclick="onlyOne(this)"></label>
+                    <label>-1.5<input value="-1.5" class="input_element" type="checkbox" name="check" onclick="onlyOne(this)"></label>
+                    <label>-1<input value="-1" class="input_element" type="checkbox" name="check" onclick="onlyOne(this)"></label>
+                    <label>-0.5<input value="-0.5" class="input_element" type="checkbox" name="check" onclick="onlyOne(this)"></label>
+                    <label>0<input value="0" class="input_element" type="checkbox" name="check" onclick="onlyOne(this)"></label>
+                    <label>0.5<input value="0.5" class="input_element" type="checkbox" name="check" onclick="onlyOne(this)"></label>
+                    <label>1<input value="1" class="input_element" type="checkbox" name="check" onclick="onlyOne(this)"></label>
+                    <label>1.5<input value="1.5" class="input_element" type="checkbox" name="check" onclick="onlyOne(this)"></label>
+                    <label>2<input value="2" class="input_element" type="checkbox" name="check" onclick="onlyOne(this)"></label>
+                </label>
+            </div>
+
+            <div>
+                <label>Enter Y: <input class="input_element" type="text" name="inputY" placeholder="от -3 до 5" autocomplete="off" id="Y"></label>
+            </div>
+
+            <div>
+                <label>Enter R: <input class="input_element" type="text" name="inputR" placeholder="от 1 до 4" autocomplete="off" id="R"></label>
+            </div>
+
+            <div>
+                <input type="submit" class = "submit" value="Submit" name="submit" id="submit">
+                <input type="reset" class = "reset" value="Clear" name="reset" onclick="draw_graph()">
+            </div>
+        </div>
+        </form>
+
+        <div class = "table">
+            <table id="table_end">
+                <tr>
+                    <th>Result</th>
+                    <th>X</th>
+                    <th>Y</th>
+                    <th>R</th>
+                    <th>Time</th>
+                    <th>Execute Time</th>
+                </tr>
+            </table>
+        </div>
+        <script src="JS/script.js"></script>
+    </main>
+</body>
+</html>
+
+<script>
+    if (sessionStorage.length !== 0){
+        for (let x = 0; x < sessionStorage.length; x++){
+            console.log("Lab1 has loaded");
+            let informationDiv = document.getElementById("table_end");
+            informationDiv.innerHTML = informationDiv.innerHTML + sessionStorage[x];
+        }
+    }
+    $(document).ready(function (){
+        $("#feedBack").on("reset", function (){
+            $.ajax({
+                success: function (){
+                    console.log("Command: clear");
+                    sessionStorage.clear();
+                    let informationDiv = document.getElementById("table_end");
+                    informationDiv.innerHTML = informationDiv.innerHTML.substring(0, 276);
+                    console.log("Table is clear");
+                }
+            });
+        });
+    });
+    $(document).ready(function (){
+        $("#feedBack").on("submit", function (){
+            let formData = $(this).serialize();
+            $.ajax({
+                type: "get",
+                url: "content.php",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function (data){
+                    console.log("Command: submit");
+                    sessionStorage.setItem(sessionStorage.length, data);
+                    let informationDiv = document.getElementById("table_end");
+                    informationDiv.innerHTML = informationDiv.innerHTML + data;
+                    console.log(data + " has added");
+                }
+            });
+        });
+    });
+</script>

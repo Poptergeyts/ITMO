@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f = "http://java.sun.com/jsf/core"
+      xmlns:ui = "http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>Start</title>
+    <link rel="stylesheet" href="CSS/work.css"/>
+    <link rel="stylesheet" href="CSS/header.css"/>
+<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous"></link>-->
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>-->
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>-->
+</h:head>
+<h:body>
+    <header>
+        <div class="author">Шубин Илья P3233</div>
+        <div class="title">Лабораторная работа №3</div>
+        <div class="variant">Вариант 43342</div>
+    </header>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6 text-center">
+                <div class="canvas">
+                    <canvas id="canvas">This browser does not support graphics</canvas>
+                </div>
+                <h:form prependId="false" id="input_form">
+                    <label class="labelForForm">
+                        Enter X:
+                        <h:selectOneRadio value="#{entity.x}" converter="javax.faces.Float" id="t0">
+                            <f:selectItem itemValue="-2" itemLabel = "-2 "/>
+                            <f:selectItem itemValue="-1.5" itemLabel = "-1.5 "/>
+                            <f:selectItem itemValue="-1" itemLabel = "-1 "/>
+                            <f:selectItem itemValue="-0.5" itemLabel = "-0.5 "/>
+                            <f:selectItem itemValue="0" itemLabel = "0 "/>
+                            <f:selectItem itemValue="0.5" itemLabel = "0.5 "/>
+                            <f:selectItem itemValue="1" itemLabel = "1 "/>
+                            <f:selectItem itemValue="1.5" itemLabel = "1.5 "/>
+                            <f:selectItem itemValue="2" itemLabel = "2"/>
+                        </h:selectOneRadio>
+                    </label>
+                    <br/>
+                    <label class="labelForForm">
+                        Enter Y:
+                        <h:inputText id="t1" styleClass="Y" value="#{entity.y}"  converter="javax.faces.Float" validatorMessage="Error Y" autocomplete="false">
+                            <f:validateDoubleRange minimum="-3" maximum="5"/>
+                        </h:inputText>
+                        <h:message for="t1" style="color: red; text-align: center; padding-left: 10px"/>
+                    </label>
+                    <br/>
+                    <label class="labelForForm">
+                        Enter R:
+                        <h:inputText id="t2" styleClass="R" value="#{entity.r}" converter="javax.faces.Float" validatorMessage="Error R" autocomplete="false">
+                            <f:validateDoubleRange minimum="1" maximum="4"/>
+                        </h:inputText>
+                        <h:message for="t2" style="color: red; text-align: center; padding-left: 10px"/>
+                    </label>
+                    <br/>
+                    <div class="col">
+                        <h:commandButton value="submit" type="submit" styleClass="submit" action="#{entity.print}" class="submit" onclick="savePoint()">
+                            <f:ajax execute="input_form" render="@all" onevent="clearCanvas"/>
+                        </h:commandButton>
+                        <h:commandButton value="clear" type="submit" styleClass="submit" action="#{entity.clear}" class="submit" onclick="clearPoints()">
+                            <f:ajax execute="input_form" render="@all" onevent="drawCanvas" />
+                        </h:commandButton>
+                    </div>
+                </h:form>
+                <h:form>
+                    <h:commandButton value="back" action="main.xhtml" styleClass="mega-button submit"></h:commandButton>
+                </h:form>
+            </div>
+
+            <div class="col-6 text-center justify-content-center">
+                <table class="table" style="width: 90%;">
+                    <thead>
+                    <tr>
+                        <th scope="col">Result</th>
+                        <th scope="col">X</th>
+                        <th scope="col">Y</th>
+                        <th scope="col">R</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Script</th>
+                    </tr>
+                    </thead>
+                    <tbody id="table_end">
+                    <ui:repeat value="#{entity.list}" var="item">
+                        <tr>
+                            <td><span style="color: #{item.entry ? 'lime' : 'red'}">#{item.entry}</span></td>                            <td>#{item.x}</td>
+                            <td>#{item.y}</td>
+                            <td>#{item.r}</td>
+                            <td>#{item.time}</td>
+                            <td>#{item.script}</td>
+                        </tr>
+                    </ui:repeat>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</h:body>
+<script src="JS/canvas.js"></script>
+<script src="JS/tools.js"></script>
+<script src="JS/clearCanvas.js"></script>
+</html>
+
